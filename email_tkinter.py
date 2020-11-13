@@ -4,53 +4,52 @@ import smtplib
 root = Tk()
 root.geometry("500x500")
 root.title("Send Email")
+root.configure(background = "pink")
 # creating SMTP
+
+
+
 
 to_email = Label(root, text = "Email")
 to_email.pack(pady = 15)
-email_entry = Entry(root)
+
+email_id = StringVar()
+body_info =StringVar()
+subj = StringVar()
+
+email_entry = Entry(textvariable = email_id, width = 40)
 email_entry.pack()
 
 subject = Label(root, text = "Subject")
 subject.pack(pady = 15)
-sub_ent = Entry(root)
+sub_ent = Entry(textvariable = subj, width = 40)
 sub_ent.pack()
 
-message = Text(root, width = 40, height = 10)
-message.pack(pady = 10)
+message = Entry(textvariable = body_info, width = 40)
+message.place(x = 100, y = 200, height = 50)
+
 
 def gmail():
-    usermail = email_entry.get()
-    server = smtplib.SMTP("smtp.gmail.com', 587")
-    subj = sub_ent.get()
-    text = message.get()
-    password = password.get()
-    server.starttls()
-    main_message = message.get()
+    usermail = email_id.get()
+    body_content = body_info.get()
+    print(usermail, body_content)
 
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
-        sender_email = ("senders-email-address.com")
-        receiver_email = ("thapelo@lifechoices.co.za")
+        sender_email = ("laeeqahesau@gmail.com")
+        receiver_email = ("laeeqahesau@gmail.com")
         password = input("Enter senders email password")
 
         #starting TLS security
         server.starttls()
 
         server.login(sender_email, password)
-
-        message = "Greeings"
-        message2 = "Hi there .Get well soon\n"
-        message = message + ""
-
-        server.sendmail(sender_email, receiver_email, message, message2)
-
+        server.sendmail(sender_email,receiver_email, "This is a test email")
+        print("This message has been sent successfully")
     except Exception as error:
         print("Something went wrong...", error)
     finally:
         server.quit()
-
-
 
 send_btn = Button(root, text ="Submit", command = gmail)
 send_btn.pack()
